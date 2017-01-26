@@ -76,6 +76,9 @@ Vagrant.configure('2') do |config|
   sudo setenforce 0
   sudo cp /vagrant/conf/selinux.base /etc/selinux/config
   sudo chmod 644 /etc/selinux/config
+  # enabled firewalld
+  sudo systemctl start firewalld
+  sudo systemctl enable firewalld
   # install packages.
   sudo yum install -y gcc make kernel-devel
   sudo yum install -y git nkf tcsh vim ctags
