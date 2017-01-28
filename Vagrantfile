@@ -77,14 +77,25 @@ Vagrant.configure('2') do |config|
   sudo cp /vagrant/conf/selinux.base /etc/selinux/config
   sudo chmod 644 /etc/selinux/config
   # enabled firewalld
-  sudo firewall-cmd --add-port=3000/tcp --zone=public --permanent
+  enable_ports=$(sudo firewall-cmd --list-ports)
+  for port in "3000/tcp"; do
+    if ! `echo ${enable_ports[@]} | grep -q "${port}"`; then
+      sudo firewall-cmd --add-port=${port} --zone=public --permanent
+    else
+      sudo firewall-cmd --remove-port=${port} --zone=public --permanent
+    fi
+  done
   sudo systemctl start firewalld
   sudo systemctl enable firewalld
   sudo systemctl restart firewalld
   # install packages.
   sudo yum install -y gcc make kernel-devel
-  sudo yum install -y git nkf tcsh vim ctags
+  sudo yum install -y git tcsh vim ctags
   sudo yum install -y readline-devel openssl-devel sqlite-devel libxml2-devel libxslt-devel
+  keychain_setup=$(yum list installed keychain | awk '{ print $1;}' | tail -1)
+  if [ ! ${keychain_setup} = "keychain.noarch" ]; then
+    sudo yum install -y https://kojipkgs.fedoraproject.org//packages/keychain/2.8.0/3.fc24/noarch/keychain-2.8.0-3.fc24.noarch.rpm
+  fi
   # setup sudoers
   #sudo cp /vagrant/conf/sudoers.base /etc/sudoers
   #sudo chmod 440 /etc/sudoers
@@ -119,9 +130,7 @@ Vagrant.configure('2') do |config|
     fi
   done
   # setup 'view' command.
-  if [ ! -f /usr/bin/view ]; then
-    cd /usr/bin; sudo ln -s vim view
-  fi
+  cd /usr/bin; rm view; sudo ln -s vim view
   # update packages.
   sudo yum update -y
   SHELL
