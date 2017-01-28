@@ -72,7 +72,7 @@ Vagrant.configure('2') do |config|
   # set locales
   sudo yum install -y ibus-kkc vlgothic-*
   sudo localectl set-locale LANG=ja_JP.utf8
-  # set selinux(disabled)
+  # set selinux(permissive)
   sudo setenforce 0
   sudo cp /vagrant/conf/selinux.base /etc/selinux/config
   sudo chmod 644 /etc/selinux/config
