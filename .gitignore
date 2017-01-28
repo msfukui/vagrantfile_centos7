@@ -1,3 +1,4 @@
 .vagrant
 hostname.*
 keys/*_keys
+.*.swp
