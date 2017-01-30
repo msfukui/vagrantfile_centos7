@@ -99,7 +99,7 @@ Vagrant.configure('2') do |config|
   sudo systemctl restart firewalld
   # install packages.
   sudo yum install -y gcc make kernel-devel
-  sudo yum install -y git tcsh vim ctags
+  sudo yum install -y git tcsh vim ctags wget
   sudo yum install -y readline-devel openssl-devel sqlite-devel libxml2-devel libxslt-devel
   #keychain_setup=$(yum list installed keychain | awk '{ print $1;}' | tail -1)
   #if [ ! ${keychain_setup} = "keychain.noarch" ]; then
@@ -140,6 +140,10 @@ Vagrant.configure('2') do |config|
   done
   # setup 'view' command.
   cd /usr/bin; rm view; sudo ln -s vim view
+  # setup 'heroku' command.
+  if [ ! -f /usr/local/heroku/bin/heroku ]; then
+    sudo wget -qO- https://toolbelt.heroku.com/install.sh | sh
+  fi
   # update packages.
   sudo yum update -y
   SHELL
