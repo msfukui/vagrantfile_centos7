@@ -102,7 +102,7 @@ Vagrant.configure('2') do |config|
   sudo yum install -y git tcsh vim ctags wget
   sudo yum install -y readline-devel openssl-devel libxml2-devel libxslt-devel
   sudo yum install -y sqlite-devel postgresql-devel
-  sudo yum install -y java-1.8.0-openjdk.x86_64
+  sudo yum install -y java-1.8.0-openjdk gcc-c++
   #keychain_setup=$(yum list installed keychain | awk '{ print $1;}' | tail -1)
   #if [ ! ${keychain_setup} = "keychain.noarch" ]; then
   #  sudo yum install -y https://kojipkgs.fedoraproject.org//packages/keychain/2.8.0/3.fc24/noarch/keychain-2.8.0-3.fc24.noarch.rpm
