@@ -147,12 +147,7 @@ Vagrant.configure('2') do |config|
   sudo mkdir -p /usr/local/src
   cd /usr/local/src/
   sudo git clone https://github.com/vim/vim.git
-  cd vim/
-  sudo git pull
-  sudo make distclean
-  sudo ./configure --prefix=/usr/local --with-features=huge --enable-multibyte --enable-luainterp --enable-cscope --enable-fail-if-missing
-  sudo make
-  sudo make install
+  sudo sh -c "cd vim/; git pull; make distclean; ./configure --prefix=/usr/local --with-features=huge --enable-multibyte --enable-luainterp --enable-cscope --enable-fail-if-missing; make; make install"
   # setup 'heroku' command.
   if [ ! -f /usr/local/heroku/bin/heroku ]; then
     sudo wget -qO- https://toolbelt.heroku.com/install.sh | sh
