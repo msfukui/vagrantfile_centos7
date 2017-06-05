@@ -99,7 +99,7 @@ Vagrant.configure('2') do |config|
   sudo systemctl restart firewalld
   # install packages.
   sudo yum install -y gcc make kernel-devel
-  sudo yum install -y git tcsh vim ctags wget
+  sudo yum install -y git tcsh ctags wget
   sudo yum install -y readline-devel openssl-devel libxml2-devel libxslt-devel
   sudo yum install -y sqlite-devel postgresql-devel
   sudo yum install -y java-1.8.0-openjdk gcc-c++
@@ -141,7 +141,18 @@ Vagrant.configure('2') do |config|
     fi
   done
   # setup 'view' command.
-  cd /usr/bin; rm view; sudo ln -s vim view
+  cd /usr/bin; sudo rm view; sudo ln -s vim view
+  # setup vim
+  sudo yum install -y lua-devel
+  sudo mkdir -p /usr/local/src
+  cd /usr/local/src/
+  sudo git clone https://github.com/vim/vim.git
+  cd vim/
+  sudo git pull
+  sudo make distclean
+  sudo ./configure --prefix=/usr/local --with-features=huge --enable-multibyte --enable-luainterp --enable-cscope --enable-fail-if-missing
+  sudo make
+  sudo make install
   # setup 'heroku' command.
   if [ ! -f /usr/local/heroku/bin/heroku ]; then
     sudo wget -qO- https://toolbelt.heroku.com/install.sh | sh
