@@ -129,6 +129,11 @@ Vagrant.configure('2') do |config|
   # setup motd
   sudo cp /vagrant/conf/motd.base /etc/motd
   sudo chmod 644 /etc/motd
+  # setup epel
+  sudo yum install epel-release
+  sudo cp -p /etc/yum.repos.d/epel.repo /etc/yum.repos.d/epel.repo.old
+  sudo sed -e "s/enabled=1/enabled=0/g" /etc/yum.repos.d/epel.repo > /etc/yum.repos.d/epel.repo.new
+  sudo mv /etc/yum.repos.d/epel.repo.new /etc/yum.repos.d/epel.repo
   # account setup
   for myaccount in $(ls -1 /vagrant/keys | cut -d'_' -f1); do
     if [ ! -d /home/${myaccount} ]; then
