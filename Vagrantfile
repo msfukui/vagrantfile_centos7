@@ -148,11 +148,15 @@ Vagrant.configure('2') do |config|
   # setup 'view' command.
   cd /usr/bin; sudo rm view; sudo ln -s vim view
   # setup vim
-  sudo yum install -y lua-devel
-  sudo mkdir -p /usr/local/src
-  cd /usr/local/src/
-  sudo git clone https://github.com/vim/vim.git
-  sudo sh -c "cd vim/; git pull; make distclean; ./configure --prefix=/usr/local --with-features=huge --enable-multibyte --enable-luainterp --enable-cscope --enable-fail-if-missing; make; make install"
+  if [ ! -f /usr/local/bin/vim ]; then
+    sudo yum install -y lua-devel
+    sudo mkdir -p /usr/local/src
+    cd /usr/local/src
+    if [ ! -d /usr/local/src/vim ]; then
+      sudo git clone https://github.com/vim/vim.git
+    fi
+    sudo sh -c "cd vim/; git pull; make distclean; ./configure --prefix=/usr/local --with-features=huge --enable-multibyte --enable-luainterp --enable-cscope --enable-fail-if-missing; make; make install"
+  fi
   # setup 'heroku' command.
   if [ ! -f /usr/local/heroku/bin/heroku ]; then
     sudo wget -qO- https://toolbelt.heroku.com/install.sh | sh
