@@ -157,10 +157,6 @@ Vagrant.configure('2') do |config|
     fi
     sudo sh -c "cd vim/; git pull; make distclean; ./configure --prefix=/usr/local --with-features=huge --enable-multibyte --enable-luainterp --enable-cscope --enable-fail-if-missing; make; make install"
   fi
-  # setup 'heroku' command.
-  if [ ! -f /usr/local/heroku/bin/heroku ]; then
-    sudo wget -qO- https://toolbelt.heroku.com/install.sh | sh
-  fi
   # update packages.
   sudo yum update -y
   SHELL
